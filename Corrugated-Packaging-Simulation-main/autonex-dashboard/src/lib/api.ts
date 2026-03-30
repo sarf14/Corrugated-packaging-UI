@@ -33,7 +33,11 @@ export interface SimulationData {
   Alerts: Alert[];
 }
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
+let rawBase = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").trim().replace(/\/$/, "");
+if (!rawBase.startsWith("http")) {
+  rawBase = `https://${rawBase}`;
+}
+const API_BASE_URL = rawBase;
 const API_URL = `${API_BASE_URL}/api`;
 
 export const fetchDefaultSimulation = async (): Promise<SimulationData> => {
